@@ -22,7 +22,7 @@
         {
             return pecas[pos.linha, pos.coluna];
         }
-
+        
         public void ColocarPeca(Peca peca, Posicao posicao)
         {
             if (existePeca(posicao))
@@ -32,7 +32,14 @@
             pecas[posicao.linha, posicao.coluna] = peca;
             peca.posicao = posicao;
         }
-
+        public Peca RetirarPeca(Posicao posicao)
+        {
+            if (peca(posicao) == null) return null;
+            Peca aux = peca(posicao);
+            aux.posicao = null;
+            pecas[posicao.linha, posicao.coluna] = null;
+            return aux;
+        }
         public bool existePeca(Posicao pos) 
         {
             ValidarPosicao(pos);
