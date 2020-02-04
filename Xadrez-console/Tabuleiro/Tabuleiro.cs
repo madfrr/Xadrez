@@ -2,8 +2,8 @@
 {
     class Tabuleiro
     {
-        public int linhas { get; set; }
-        public int colunas { get; set; }
+        public int linhas { get; private set; }
+        public int colunas { get; private set; }
         private Peca[,] pecas;
 
         public Tabuleiro(int linhas, int colunas)
@@ -40,15 +40,17 @@
             pecas[posicao.linha, posicao.coluna] = null;
             return aux;
         }
+
         public bool existePeca(Posicao pos) 
         {
             ValidarPosicao(pos);
             return peca(pos) != null;
         }
+
         // na minha opiniao, nao precisava de dois metodos para validar posicao
         public bool PosicaoValida(Posicao pos)
         {
-            if(pos.linha<0 || pos.linha > linhas || pos.coluna<0 || pos.coluna > colunas)
+            if(pos.linha<0 || pos.linha >= linhas || pos.coluna<0 || pos.coluna >= colunas)
             {
                 return false;
             }
