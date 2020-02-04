@@ -19,12 +19,55 @@ namespace xadrez
             jogadorAtual = Cor.Branco;
         }
 
-        public void ExecutaMovimento(Posicao origem, Posicao destino)
+        public void ValidaPosicaoOrigem(Posicao pos)
+        {
+            if (tab.peca(pos) == null)
+            {
+                throw new TabuleiroException("Nao existe peca nessa posicao");
+            }
+            if(jogadorAtual != tab.peca(pos).cor)
+            {
+                throw new TabuleiroException("A peca de origem escolhida nao eh sua");
+            }
+            if (!tab.peca(pos).ExisteMovimentosPossiveis())
+            {
+                throw new TabuleiroException("Nao existe movimentos possiveis com essa peca");
+            }
+        }
+
+        public void ValidaPosicaoDestino(Posicao origem, Posicao destino)
+        {
+            if (!tab.peca(origem).PodeMoverPara(destino))
+            {
+                throw new TabuleiroException("Posicao de destino Invalida");
+            }
+
+        }
+
+        private void ExecutaMovimento(Posicao origem, Posicao destino)
         {
             Peca p = tab.RetirarPeca(origem);
             p.IncrementaQtdMovimentos();
             Peca pecaCapturada = tab.RetirarPeca(destino);
             tab.ColocarPeca(p, destino);
+        }
+        public void RealizaJogada(Posicao origem, Posicao destino)
+        {
+            ExecutaMovimento(origem, destino);
+            turno++;
+            TrocaJogador();
+        }
+
+        private void TrocaJogador()
+        {
+            if(jogadorAtual == Cor.Branco)
+            {
+                jogadorAtual = Cor.Preto;
+            }
+            else
+            {
+                jogadorAtual = Cor.Branco;
+            }
         }
 
         private void ColocarPecas()
